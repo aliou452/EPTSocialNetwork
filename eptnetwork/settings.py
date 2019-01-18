@@ -20,9 +20,23 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '=3b50o+0#%2_qw5uia+kh@3q!ep4lpslw0fcs8a&bl4%ua&_rg'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
+from django.core.exceptions import ImproperlyConfigured
+# import dj_database_url
+
+
+# get the environment variable
+def get_env_variable(var_name):
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = "Set the %s environment variable" % var_name
+        raise ImproperlyConfigured(error_msg)
+
+SECRET_KEY = get_env_variable('SECRET_KEY')
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
